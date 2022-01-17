@@ -1,44 +1,31 @@
-﻿using System.Collections.ObjectModel;
+﻿using DotNet6API_Sample.Library.Interfaces;
 using DotNet6API_Sample.Library.Models;
 
 namespace DotNet6API_Sample.Library.Services;
 
 public class UserService
 {
-    public UserRecord GetUser(Guid userId)
+    private readonly IUserRepository _userRepository;
+
+    public UserService(IUserRepository userRepository)
     {
-        return new UserRecord
-        {
-            Id = userId,
-            FistName = "John",
-            LastName = "Doe",
-            Email = "john.doe@test.com"
-        };
+        _userRepository = userRepository;
     }
 
-    public ReadOnlyCollection<UserRecord> GetUsers()
+    public UserRecord GetUser(Guid userId)
     {
-        return new ReadOnlyCollection<UserRecord>(new List<UserRecord>
-        {
-            new()
-            {
-                Id = new Guid("6EAEA9BB-8094-44FD-8124-6A3D809D7983"),
-                FistName = "John",
-                LastName = "Doe",
-                Email = "john.doe@test.com"
-            },
-            new()
-            {
-                Id = new Guid("6EAEA9BB-8094-44FD-8124-6A3D809D7983"),
-                FistName = "John",
-                LastName = "Doe",
-                Email = "john.doe@test.com"
-            }
-        });
+        return _userRepository.ReadByUserId(userId);
+    }
+
+    public IReadOnlyCollection<UserRecord> GetUsers()
+    {
+        return _userRepository.ReadAll();
     }
 
     public Guid SaveUser(UserRecord userRecord)
     {
-        return userRecord.Id ?? Guid.NewGuid();
+        return userRecord.Id == Guid.Empty || userRecord.Id == null
+            ? _userRepository.Create(userRecord)
+            : _userRepository.Update(userRecord);
     }
 }
