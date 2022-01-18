@@ -24,7 +24,7 @@ public class UserServiceTests
     {
         // Arrange
         var userID = Guid.NewGuid();
-        userRecord.Id = userID;
+        userRecord.ID = userID;
         userRepository.Setup(x => x.ReadByUserId(It.IsAny<Guid>())).Returns(userRecord);
 
         // Act
@@ -32,10 +32,10 @@ public class UserServiceTests
 
         // Assert
         result.Should().NotBeNull();
-        result.Id.Should().Be(userRecord.Id);
-        result.FistName.Should().Be(userRecord.FistName);
+        result.ID.Should().Be(userRecord.ID);
+        result.FirstName.Should().Be(userRecord.FirstName);
         result.LastName.Should().Be(userRecord.LastName);
-        result.Email.Should().Be(userRecord.Email);
+        result.EmailAddress.Should().Be(userRecord.EmailAddress);
 
         userRepository.Verify(x => x.ReadByUserId(userID), Times.Once);
     }
@@ -73,7 +73,7 @@ public class UserServiceTests
     {
         // Arrange
         var userID = Guid.NewGuid();
-        userRecord.Id = null;
+        userRecord.ID = null;
         userRepository.Setup(x => x.Create(It.IsAny<UserRecord>())).Returns(userID);
 
         // Act
@@ -98,7 +98,7 @@ public class UserServiceTests
     {
         // Arrange
         var userID = Guid.NewGuid();
-        userRecord.Id = Guid.Empty;
+        userRecord.ID = Guid.Empty;
         userRepository.Setup(x => x.Create(It.IsAny<UserRecord>())).Returns(userID);
 
         // Act

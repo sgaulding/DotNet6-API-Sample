@@ -12,7 +12,7 @@ public class UserService
         _userRepository = userRepository;
     }
 
-    public UserRecord GetUser(Guid userId)
+    public UserRecord? GetUser(Guid userId)
     {
         return _userRepository.ReadByUserId(userId);
     }
@@ -24,7 +24,7 @@ public class UserService
 
     public Guid SaveUser(UserRecord userRecord)
     {
-        return userRecord.Id == Guid.Empty || userRecord.Id == null
+        return userRecord.ID == Guid.Empty || userRecord.ID == null
             ? _userRepository.Create(userRecord)
             : _userRepository.Update(userRecord);
     }
