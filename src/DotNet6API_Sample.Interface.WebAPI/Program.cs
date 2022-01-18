@@ -2,7 +2,6 @@ using DotNet6API_Sample.Library.Interfaces;
 using DotNet6API_Sample.Library.Repositories;
 using DotNet6API_Sample.Library.Services;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -21,6 +20,7 @@ builder.Services.AddSingleton<UserService>();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// OpenAPI path /swagger/index.html
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
