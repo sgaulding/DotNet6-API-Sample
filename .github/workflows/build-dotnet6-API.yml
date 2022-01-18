@@ -1,7 +1,6 @@
 name: Build .NET API
 
 on:
-    workflow_dispatch:
     push:
         branches: [main]
         paths:
@@ -10,24 +9,35 @@ on:
         branches: [main]
         paths:
             - "./src/**"
+    workflow_dispatch:
 
 defaults:
     run:
         working-directory: ./src
 
 jobs:
-    build:
+    build-unittest:
         runs-on: ubuntu-latest
-
+        strategy:
+            fail-fast: true
+            matrix:
+                operating-system: [ubuntu-latest]
+                dotnet-version: ["6.0"]
         steps:
-            - uses: actions/checkout@v2
+            - name: Checkout GitHub Action
+              uses: actions/checkout@v2
+
             - name: Setup .NET
               uses: actions/setup-dotnet@v1
               with:
                   dotnet-version: 6.0.x
-            - name: Restore dependencies
+
+            - name: DotNet Restore Packages
               run: dotnet restore
-            - name: Build
+
+            - name: DotNet Build
               run: dotnet build --no-restore
-            - name: Test
-              run: dotnet test --no-build --verbosity normal
+
+            - name: DotNet Unit Test
+              working-directory: ./src/DotNet6API_Sample.Tests.Unit
+              run: dotnet test --no-build --verbosity normal --logger trx --results-directory "TestResults-Ubuntu-DotNet6"
