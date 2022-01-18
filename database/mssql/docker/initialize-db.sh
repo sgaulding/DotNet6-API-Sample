@@ -1,4 +1,4 @@
-echo "Wait to be sure that SQL Server came up"
+echo "Wait 30 seconds to be sure that SQL Server came up"
 sleep 30s
 
 # Note: make sure that your password matches what is in the Dockerfile

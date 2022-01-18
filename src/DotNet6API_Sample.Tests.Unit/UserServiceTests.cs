@@ -32,10 +32,10 @@ public class UserServiceTests
 
         // Assert
         result.Should().NotBeNull();
-        result.ID.Should().Be(userRecord.ID);
-        result.FirstName.Should().Be(userRecord.FirstName);
-        result.LastName.Should().Be(userRecord.LastName);
-        result.EmailAddress.Should().Be(userRecord.EmailAddress);
+        result?.ID.Should().Be(userRecord.ID);
+        result?.FirstName.Should().Be(userRecord.FirstName);
+        result?.LastName.Should().Be(userRecord.LastName);
+        result?.EmailAddress.Should().Be(userRecord.EmailAddress);
 
         userRepository.Verify(x => x.ReadByUserId(userID), Times.Once);
     }

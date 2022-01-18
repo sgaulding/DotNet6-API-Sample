@@ -5,7 +5,7 @@ VisualStudioVersion = 17.1.32104.313
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNet6API_Sample.Library", "DotNet6API_Sample.Library\DotNet6API_Sample.Library.csproj", "{F701BF2C-E2C6-4956-9436-B9D7F85AC6D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNet6API_Sample.Tests.Unit", "DotNet6API_Sample.UnitTests\DotNet6API_Sample.Tests.Unit.csproj", "{731F7724-EDC9-48A3-8DD0-75587F16657B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNet6API_Sample.Tests.Unit", "DotNet6API_Sample.Tests.Unit\DotNet6API_Sample.Tests.Unit.csproj", "{731F7724-EDC9-48A3-8DD0-75587F16657B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet6API_Sample.Tests.Integration", "DotNet6API_Sample.Tests.Integration\DotNet6API_Sample.Tests.Integration.csproj", "{C8A76796-B22F-444B-85C8-34AFCDA4D790}"
 EndProject
