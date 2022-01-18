@@ -26,6 +26,7 @@ public class EntityFrameworkUserRepository : IUserRepository
     public Guid Create(UserRecord userRecord)
     {
         var newUserRecord = _userDbContext.Add(userRecord);
+        _userDbContext.SaveChanges();
         return newUserRecord.Entity.ID ?? Guid.Empty;
     }
 

@@ -13,7 +13,7 @@ namespace DotNet6API_Sample.Tests.Integration;
 
 public class EntityFrameworkUserRepositoryTests
 {
-    private readonly EntityFrameworkUserRepository? _sut;
+    private readonly EntityFrameworkUserRepository _sut;
 
     public EntityFrameworkUserRepositoryTests()
     {
@@ -29,12 +29,13 @@ public class EntityFrameworkUserRepositoryTests
 
         var services = new ServiceCollection();
         services.AddOptions();
-        services.AddSingleton<IConfiguration>(provider => builder);
+        services.AddSingleton<IConfiguration>(builder);
         services.AddSingleton(new UserDbContext(dotnet6DbConnectionString));
         services.AddSingleton<IUserRepository, EntityFrameworkUserRepository>();
         var container = services.BuildServiceProvider();
 
-        _sut = container.GetService<EntityFrameworkUserRepository>();
+        _sut = container.GetService<IUserRepository>() as EntityFrameworkUserRepository ??
+               throw new InvalidOperationException();
     }
 
     [Fact]
@@ -68,16 +69,21 @@ public class EntityFrameworkUserRepositoryTests
         // Arrange
         var user = new UserRecord
         {
-            FirstName = "Test",
+            FirstName = "Create",
             LastName = "User",
             EmailAddress = "test@user.com"
         };
 
         // Act
         var result = _sut.Create(user);
+        user.ID = result;
+
+        var confirmRecord = _sut.ReadByUserId(result);
+        
 
         // Assert
         result.Should().NotBe(Guid.Empty);
+        confirmRecord.Should().Be(user);
     }
 
     [Fact]
