@@ -1,23 +1,40 @@
-﻿using System;
+using System;
+using System.IO;
 using System.Linq;
+using DotNet6API_Sample.Library.Interfaces;
 using DotNet6API_Sample.Library.Models;
 using DotNet6API_Sample.Library.Repositories;
 using FluentAssertions;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace DotNet6API_Sample.Tests.Integration;
 
 public class EntityFrameworkUserRepositoryTests
 {
-    private readonly EntityFrameworkUserRepository _sut;
+    private readonly EntityFrameworkUserRepository? _sut;
 
     public EntityFrameworkUserRepositoryTests()
     {
-        var userDbContext =
-            new UserDbContext(
-                "Server=localhost,1433;Database=dotnet6-api-sample;user id=sa;password=P@ssw0rd;");
+        var configurationBuilder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile(Path.GetFullPath("./appsettings.json"), false, true)
+            .AddJsonFile(Path.GetFullPath("./appsettings.docker.json"), true, true)
+            .AddEnvironmentVariables();
 
-        _sut = new EntityFrameworkUserRepository(userDbContext);
+        var builder = configurationBuilder.Build();
+
+        var dotnet6DbConnectionString = builder.GetSection("ConnectionStrings:dotnet6-api-sample-mssql").Value;
+
+        var services = new ServiceCollection();
+        services.AddOptions();
+        services.AddSingleton<IConfiguration>(provider => builder);
+        services.AddSingleton(new UserDbContext(dotnet6DbConnectionString));
+        services.AddSingleton<IUserRepository, EntityFrameworkUserRepository>();
+        var container = services.BuildServiceProvider();
+
+        _sut = container.GetService<EntityFrameworkUserRepository>();
     }
 
     [Fact]

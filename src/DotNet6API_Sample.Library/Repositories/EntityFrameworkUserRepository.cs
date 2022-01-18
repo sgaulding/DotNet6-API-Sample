@@ -35,6 +35,7 @@ public class EntityFrameworkUserRepository : IUserRepository
         if (recordToUpdate == null) return Guid.Empty;
 
         _userDbContext.Entry(recordToUpdate).CurrentValues.SetValues(userRecord);
+        _userDbContext.SaveChanges();
 
         return recordToUpdate.ID ?? Guid.Empty;
     }

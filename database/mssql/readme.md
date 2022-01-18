@@ -22,3 +22,15 @@ Build Container
 Run Container
 
 > docker run --name dotnet6api-sql -p 1433:1433 -d ms-sql-2019:dev
+
+Stop Container
+
+> docker kill dotnet6api-sql
+
+Remove Container
+
+> docker rm dotnet6api-sql
+
+Remove Image
+
+> docker rmi ms-sql-2019:dev

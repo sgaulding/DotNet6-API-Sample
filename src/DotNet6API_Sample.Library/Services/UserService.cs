@@ -1,4 +1,4 @@
-﻿using DotNet6API_Sample.Library.Interfaces;
+using DotNet6API_Sample.Library.Interfaces;
 using DotNet6API_Sample.Library.Models;
 
 namespace DotNet6API_Sample.Library.Services;
