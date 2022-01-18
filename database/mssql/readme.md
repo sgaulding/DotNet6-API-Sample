@@ -1,19 +1,21 @@
 # .NET 6 API SQL Database
 
-This folder contains scripts to either use Docker to run SQL Server or execute on an instance of SQL already running
+This folder contains scripts to either use Docker to run SQL Server or execute on an instance of SQL already running.
 
-The [create-dotnet6-api.sql](./db-scripts/create-dotnet6-api.sql) script is used to initialize the database and insert records.
+Use the [create-dotnet6-api.sql](./db-scripts/create-dotnet6-api.sql) script to initialize the database and insert records.
 
 ## Docker Usage
 
-There are [environment variables](https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-configure-environment-variables) that can be used to configure the container and the database that it will present:
+The [environment variables](https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-configure-environment-variables) are used to configure the container and the database that it will present:
 
--   `ACCEPT_EULA`: Set the ACCEPT_EULA variable to any value to confirm your acceptance of the End-User Licensing Agreement. Required setting for the SQL Server image.
+Required setting for the SQL Server Docker image.
+
+-   `ACCEPT_EULA`: Set the ACCEPT_EULA variable to any value to confirm your acceptance of the End-User Licensing Agreement.
 -   `MSSQL_SA_PASSWORD`: Configure the SA user password.
 -   `MSSQL_PID`: Set the SQL Server edition or product key.
 -   `MSSQL_TCP_PORT`: Configure the TCP port that SQL Server listens on.
 
-### Docker Commands:
+### Docker Commands
 
 Build Container
 
