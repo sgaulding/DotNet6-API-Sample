@@ -1,12 +1,10 @@
 # .NET 6 API SQL Database
 
-This folder contains scripts to either use Docker to run SQL Server or execute on an instance of SQL already running.
+Use the [create-dotnet6-api.sql](./db-scripts/create-dotnet6-api.sql) script to initialize a SQL Server database and insert records.
 
-Use the [create-dotnet6-api.sql](./db-scripts/create-dotnet6-api.sql) script to initialize the database and insert records.
+## Run SQL Server using Docker
 
-## Docker Usage
-
-The [environment variables](https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-configure-environment-variables) are used to configure the container and the database that it will present:
+[Environment variables](https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-configure-environment-variables) configure the container and the database that it will present:
 
 Required setting for the SQL Server Docker image.
 
@@ -19,11 +17,11 @@ Required setting for the SQL Server Docker image.
 
 Build Container
 
-> docker build -t ms-sql-2019:dev .
+> docker build -t dotnet6api-sql:dev .
 
 Run Container
 
-> docker run --name dotnet6api-sql -p 1433:1433 -d ms-sql-2019:dev
+> docker run --name dotnet6api-sql -p 1433:1433 -d dotnet6api-sql:dev
 
 Stop Container
 
@@ -35,4 +33,13 @@ Remove Container
 
 Remove Image
 
-> docker rmi ms-sql-2019:dev
+> docker rmi dotnet6api-sql:dev
+
+### Notes
+
+* If you are using Docker Linux or Mac OSX, you may get a *permission denied* error when running the container. To fix you'll need to make the script files executable. To do this, run the following command in your local environment:
+    * > chmod +x <script_filename>
+    * Replace `<script_filename>` with the actual name of your script file.
+* If running SQL Server on a Mac with M chip, you may get an error when running the container. To fix you can try the following:
+    * > docker run --name dotnet6api-sql -p 1433:1433 -d --platform linux/amd64 dotnet6api-sql:dev
+    * If using Docker Desktop try *experimental feature* `Use Rosetta for x86/amd64 emulation on Apple Silicon` under the *Features in development* section in the *Preferences* dialog.

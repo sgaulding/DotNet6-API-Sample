@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/mssql/server:2019-latest
+FROM mcr.microsoft.com/mssql/server
 
 # Evironment variables for SQL Server
 ENV ACCEPT_EULA=Y
@@ -6,7 +6,9 @@ ENV MSSQL_SA_PASSWORD=P@ssw0rd
 ENV MSSQL_PID=Developer
 ENV MSSQL_TCP_PORT=1433
 
+WORKDIR /docker-entrypoint-initdb
+
 # Inject the initialization scripts in to the container
-COPY ./db-scripts/* /docker-entrypoint-initdb/
-COPY ./docker/* /docker-entrypoint-initdb/
-CMD /bin/bash /docker-entrypoint-initdb/entrypoint.sh
+COPY ./db-scripts/* ./
+COPY ./docker/* ./
+ENTRYPOINT ./entrypoint.sh
