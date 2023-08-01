@@ -50,7 +50,6 @@
     "features": {
         "git": "latest",
         "github-cli": "latest",
-        "powershell": "latest",
         "docker": "latest"
     }
 }
