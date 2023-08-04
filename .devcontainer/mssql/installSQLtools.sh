@@ -1,16 +1,22 @@
 #!/bin/bash
-echo "Running post-create script"
-echo "Installing mssql-tools"
-curl -sSL https://packages.microsoft.com/keys/microsoft.asc | (OUT=$(apt-key add - 2>&1) || echo $OUT)
-DISTRO=$(lsb_release -is | tr '[:upper:]' '[:lower:]')
-CODENAME=$(lsb_release -cs)
-echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-${DISTRO}-${CODENAME}-prod ${CODENAME} main" > /etc/apt/sources.list.d/microsoft.list
-apt-get update
-ACCEPT_EULA=Y apt-get -y install unixodbc-dev msodbcsql17 libunwind8 mssql-tools
 
-echo "Installing sqlpackage"
+echo "Find Linux Information for SQL Server install"
+DISTRO=$(lsb_release -is | tr '[:upper:]' '[:lower:]')
+VERSION=$(lsb_release -rs | cut -d. -f1)
+
+echo "Add the Microsoft to Apt Linux repository"
+curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+curl "https://packages.microsoft.com/config/$DISTRO/$VERSION/prod.list" | tee /etc/apt/sources.list.d/microsoft-prod.list
+
+echo "Update your sources"
+sudo apt-get update
+
+echo "Install the SQL Server command-line tools"
+sudo ACCEPT_EULA=Y apt-get install mssql-tools18 unixodbc-dev msodbcsql18 libunwind8 -y
+
+echo "Installing SQL Package"
 curl -sSL -o sqlpackage.zip "https://aka.ms/sqlpackage-linux"
 mkdir /opt/sqlpackage
 unzip sqlpackage.zip -d /opt/sqlpackage 
 rm sqlpackage.zip
-chmod a+x /opt/sqlpackage/sqlpackage
+chmod a+x /opt/sqlpackage/sqlpackage 
