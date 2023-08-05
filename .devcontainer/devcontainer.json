@@ -26,8 +26,9 @@
                         "user": "sa",
                         "password": "P@ssw0rd",
                         "emptyPasswordInput": false,
-                        "savePassword": false,
-                        "profileName": "mssql-container"
+                        "savePassword": true,
+                        "profileName": "mssql-container",
+                        "trustServerCertificate": true
                     }
                 ]
             },
@@ -38,13 +39,18 @@
             ]
         }
     },
-    // Use 'forwardPorts' to make a list of ports inside the container available locally.
-    // "forwardPorts": [5000, 5001],
-    // "portsAttributes": {
-    //		"5001": {
-    //			"protocol": "https"
-    //		}
-    // },
+    //Use 'forwardPorts' to make a list of ports inside the container available locally.
+    "forwardPorts": [5200, 7200],
+    "portsAttributes": {
+        "7200": {
+            "protocol": "https",
+            "label": "API HTTPS"
+        },
+        "5200": {
+            "protocol": "http",
+            "label": "API HTTP"
+        }
+    },
     // postCreateCommand.sh parameters: $1=SA password, $2=dacpac path, $3=sql script(s) path
     "postCreateCommand": "bash .devcontainer/mssql/postCreateCommand.sh 'P@ssw0rd' './bin/Debug/' './.devcontainer/mssql/'"
     // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
